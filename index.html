@@ -54,6 +54,164 @@
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
+        /* Lock body scroll while intro screen is active */
+        body.intro-locked {
+            overflow: hidden;
+            height: 100vh;
+        }
+        /* ================= TECHDROP STARTING / INTRO SCREEN STYLES ================= */
+        #techdrop-intro {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background-color: #050505;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 0.85s ease;
+        }
+        #techdrop-intro.intro-exit {
+            opacity: 0;
+            transform: scale(1.06);
+            filter: blur(12px);
+            pointer-events: none;
+        }
+        #intro-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .intro-grid-overlay {
+            position: absolute;
+            inset: 0;
+            background-size: 56px 56px;
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+            mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 0.15) 85%);
+            -webkit-mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 0.15) 85%);
+            z-index: 2;
+            pointer-events: none;
+        }
+        .intro-glow-halo {
+            position: absolute;
+            width: min(560px, 90vw);
+            height: min(560px, 90vw);
+            border-radius: 9999px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.11) 0%, rgba(200, 200, 200, 0.04) 40%, rgba(5, 5, 5, 0) 72%);
+            filter: blur(28px);
+            animation: introPulseGlow 4.5s ease-in-out infinite alternate;
+            z-index: 2;
+            pointer-events: none;
+        }
+        @keyframes introPulseGlow {
+            0% { transform: scale(0.92); opacity: 0.65; }
+            100% { transform: scale(1.08); opacity: 1; }
+        }
+        /* Animated Logo Emblem Rings */
+        .intro-emblem-wrap {
+            position: relative;
+            width: 96px;
+            height: 96px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: introSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .intro-ring-outer {
+            position: absolute;
+            inset: 0;
+            border-radius: 26px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            box-shadow: 0 0 35px rgba(255, 255, 255, 0.12), inset 0 0 20px rgba(255, 255, 255, 0.05);
+            animation: introSpinSlow 14s linear infinite;
+        }
+        .intro-ring-inner {
+            position: absolute;
+            inset: 8px;
+            border-radius: 20px;
+            border: 1px dashed rgba(200, 200, 200, 0.35);
+            animation: introSpinReverse 10s linear infinite;
+        }
+        @keyframes introSpinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes introSpinReverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+        @keyframes introSlideUp {
+            0% { opacity: 0; transform: translateY(24px) scale(0.96); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .intro-stagger-1 {
+            opacity: 0;
+            animation: introSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.12s forwards;
+        }
+        .intro-stagger-2 {
+            opacity: 0;
+            animation: introSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.24s forwards;
+        }
+        .intro-stagger-3 {
+            opacity: 0;
+            animation: introSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.36s forwards;
+        }
+        /* Shimmer effect on TECHDROP brand title */
+        .intro-brand-shimmer {
+            background: linear-gradient(110deg, #FFFFFF 30%, #8A8A8A 48%, #FFFFFF 65%);
+            background-size: 220% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShine 3.8s linear infinite;
+        }
+        @keyframes textShine {
+            to { background-position: 220% center; }
+        }
+        /* Enter Store CTA Glow & Magnetic Shine */
+        .intro-enter-btn {
+            position: relative;
+            overflow: hidden;
+            background: #FFFFFF;
+            color: #050505;
+            border: 1px solid #FFFFFF;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.22);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.3s ease,
+                        background-color 0.3s ease,
+                        opacity 0.45s ease;
+        }
+        .intro-enter-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -75%;
+            width: 50%;
+            height: 200%;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.65) 50%, rgba(255, 255, 255, 0) 100%);
+            transform: rotate(25deg);
+            animation: btnSweep 3s ease-in-out infinite;
+        }
+        @keyframes btnSweep {
+            0%, 40% { left: -75%; }
+            100% { left: 135%; }
+        }
+        .intro-enter-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 0 42px rgba(255, 255, 255, 0.45);
+            background: #F2F2F2;
+        }
+        .intro-enter-btn:active {
+            transform: scale(0.98);
+        }
         /* Custom Monochrome Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
@@ -226,7 +384,82 @@
         }
     </style>
 </head>
-<body class="bg-pureBlack text-pureWhite antialiased selection:bg-pureWhite selection:text-pureBlack">
+<body class="bg-pureBlack text-pureWhite antialiased selection:bg-pureWhite selection:text-pureBlack intro-locked">
+    <!-- ================= ANIMATED INTRO / STARTING SCREEN ================= -->
+    <div id="techdrop-intro" role="dialog" aria-modal="true" aria-label="Welcome to TECHDROP">
+        <!-- Interactive Futuristic Particle Network Canvas -->
+        <canvas id="intro-canvas" aria-hidden="true"></canvas>
+        <!-- Architectural Grid & Ambient Radial Glow -->
+        <div class="intro-grid-overlay" aria-hidden="true"></div>
+        <div class="intro-glow-halo" aria-hidden="true"></div>
+
+        <!-- Top Telemetry Bar -->
+        <div class="absolute top-6 left-6 right-6 sm:top-8 sm:left-10 sm:right-10 z-10 flex items-center justify-between text-[10px] font-display uppercase tracking-[0.26em] text-mediumGray">
+            <span class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-pureWhite animate-ping"></span>
+                <span>SYS.INIT // 2026</span>
+            </span>
+            <span class="hidden sm:inline">MONOCHROME HARDWARE FLAGSHIP</span>
+            <button type="button" onclick="enterTechdropStore()" class="text-silver hover:text-pureWhite transition-colors underline underline-offset-4 cursor-pointer">
+                Skip Intro
+            </button>
+        </div>
+
+        <!-- Centerpiece Brand Identity & Loading Experience -->
+        <div class="relative z-10 max-w-xl w-full px-6 text-center flex flex-col items-center">
+            <!-- Rotating Dual-Ring TD Emblem -->
+            <div class="intro-emblem-wrap mb-7">
+                <div class="intro-ring-outer"></div>
+                <div class="intro-ring-inner"></div>
+                <div class="w-16 h-16 rounded-2xl bg-charcoal/95 border border-pureWhite/60 flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                    <span class="font-display font-bold text-2xl tracking-tighter text-pureWhite">TD</span>
+                </div>
+            </div>
+
+            <!-- Eyebrow Tag -->
+            <div class="intro-stagger-1 inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-charcoal/90 border border-silver/25 mb-4">
+                <i class="fa-solid fa-microchip text-[10px] text-pureWhite"></i>
+                <span class="text-[10px] font-display uppercase tracking-[0.28em] text-silver">Next-Gen Smartphone Showroom</span>
+            </div>
+
+            <!-- Main Animated Brand Title -->
+            <h1 class="intro-stagger-1 font-display font-bold text-5xl sm:text-7xl tracking-[0.16em] leading-none mb-3">
+                <span class="intro-brand-shimmer">TECHDROP</span>
+            </h1>
+
+            <!-- Tagline -->
+            <p class="intro-stagger-2 text-xs sm:text-base text-silver/90 font-light tracking-wide max-w-md mb-8">
+                Your Next Tech Starts Here. Precision-engineered flagship devices curated for clarity and speed.
+            </p>
+
+            <!-- Creative Progress & Loading Bar -->
+            <div class="intro-stagger-2 w-full max-w-xs sm:max-w-sm space-y-2.5 mb-9">
+                <div class="flex items-center justify-between text-[10px] font-display uppercase tracking-[0.22em]">
+                    <span id="intro-status-text" class="text-silver">Calibrating Optics...</span>
+                    <span id="intro-percent-text" class="text-pureWhite font-bold">0%</span>
+                </div>
+                <div class="w-full h-1.5 bg-charcoal rounded-full overflow-hidden border border-silver/20 p-[1px]">
+                    <div id="intro-progress-bar" class="h-full w-0 bg-gradient-to-r from-silver via-pureWhite to-silver rounded-full shadow-[0_0_14px_rgba(255,255,255,0.85)] transition-all duration-150 ease-out"></div>
+                </div>
+            </div>
+
+            <!-- Enter Website Button -->
+            <div class="intro-stagger-3">
+                <button type="button" id="enter-store-btn" onclick="enterTechdropStore()" class="intro-enter-btn px-9 py-4 rounded-full font-display text-xs sm:text-sm font-bold uppercase tracking-[0.22em] inline-flex items-center gap-3.5 cursor-pointer">
+                    <span>Explore TECHDROP</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Bottom Brand Strip -->
+        <div class="absolute bottom-6 left-6 right-6 z-10 text-center">
+            <p class="text-[10px] font-display uppercase tracking-[0.28em] text-mediumGray">
+                Apple • Samsung • Google • Xiaomi • OPPO • vivo • realme
+            </p>
+        </div>
+    </div>
+
     <!-- Interactive Monochrome Cursor Spotlight -->
     <div id="cursor-spotlight" aria-hidden="true"></div>
     <!-- Ambient Particle & Line Field Canvas -->
@@ -1165,6 +1398,150 @@
     </div>
     <!-- ================= JAVASCRIPT APPLICATION LOGIC ================= -->
     <script>
+        /**
+         * 0. TECHDROP INTRO / STARTING SCREEN CONTROLLER
+         * Handles interactive canvas background, progress animation, and smooth reveal transition.
+         */
+        let introAnimationFrame = null;
+        let introDismissed = false;
+
+        function initIntroScreen() {
+            const introEl = document.getElementById('techdrop-intro');
+            const progressBar = document.getElementById('intro-progress-bar');
+            const percentText = document.getElementById('intro-percent-text');
+            const statusText = document.getElementById('intro-status-text');
+            const canvas = document.getElementById('intro-canvas');
+
+            if (!introEl) return;
+
+            // Interactive Canvas Field for Intro Screen
+            if (canvas && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                const ctx = canvas.getContext('2d');
+                let cw = canvas.width = window.innerWidth;
+                let ch = canvas.height = window.innerHeight;
+                const pointer = { x: cw / 2, y: ch / 2 };
+
+                const handleIntroResize = () => {
+                    if (introDismissed) return;
+                    cw = canvas.width = window.innerWidth;
+                    ch = canvas.height = window.innerHeight;
+                };
+                const handleIntroPointer = (e) => {
+                    pointer.x = e.clientX;
+                    pointer.y = e.clientY;
+                };
+
+                window.addEventListener('resize', handleIntroResize, { passive: true });
+                window.addEventListener('mousemove', handleIntroPointer, { passive: true });
+
+                const particleCount = Math.min(48, Math.floor((cw * ch) / 26000));
+                const particles = Array.from({ length: Math.max(22, particleCount) }, () => ({
+                    x: Math.random() * cw,
+                    y: Math.random() * ch,
+                    vx: (Math.random() - 0.5) * 0.45,
+                    vy: (Math.random() - 0.5) * 0.45,
+                    size: Math.random() * 1.8 + 0.7
+                }));
+
+                function drawIntroFrame() {
+                    if (introDismissed) return;
+                    ctx.clearRect(0, 0, cw, ch);
+
+                    for (let i = 0; i < particles.length; i++) {
+                        const p = particles[i];
+                        p.x += p.vx;
+                        p.y += p.vy;
+
+                        if (p.x < 0 || p.x > cw) p.vx *= -1;
+                        if (p.y < 0 || p.y > ch) p.vy *= -1;
+
+                        // Subtle attraction toward cursor
+                        const dxMouse = pointer.x - p.x;
+                        const dyMouse = pointer.y - p.y;
+                        const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+                        if (distMouse < 180) {
+                            ctx.beginPath();
+                            ctx.moveTo(p.x, p.y);
+                            ctx.lineTo(pointer.x, pointer.y);
+                            ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - distMouse / 180) * 0.22})`;
+                            ctx.lineWidth = 0.75;
+                            ctx.stroke();
+                        }
+
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.55)';
+                        ctx.fill();
+
+                        for (let j = i + 1; j < particles.length; j++) {
+                            const p2 = particles[j];
+                            const dx = p.x - p2.x;
+                            const dy = p.y - p2.y;
+                            const dist = Math.sqrt(dx * dx + dy * dy);
+                            if (dist < 130) {
+                                ctx.beginPath();
+                                ctx.moveTo(p.x, p.y);
+                                ctx.lineTo(p2.x, p2.y);
+                                ctx.strokeStyle = `rgba(200, 200, 200, ${(1 - dist / 130) * 0.16})`;
+                                ctx.lineWidth = 0.6;
+                                ctx.stroke();
+                            }
+                        }
+                    }
+                    introAnimationFrame = requestAnimationFrame(drawIntroFrame);
+                }
+                introAnimationFrame = requestAnimationFrame(drawIntroFrame);
+            }
+
+            // Smooth lightweight loading progress animation (~1.4s)
+            const stages = [
+                { at: 0, label: 'Initializing Hardware Matrix...' },
+                { at: 35, label: 'Calibrating Pro Optics...' },
+                { at: 72, label: 'Loading Flagship Lineup...' },
+                { at: 100, label: 'Showroom Ready' }
+            ];
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                if (introDismissed) {
+                    clearInterval(interval);
+                    return;
+                }
+                progress += Math.floor(Math.random() * 9) + 6;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                }
+                if (progressBar) progressBar.style.width = `${progress}%`;
+                if (percentText) percentText.textContent = `${progress}%`;
+
+                for (let s = stages.length - 1; s >= 0; s--) {
+                    if (progress >= stages[s].at) {
+                        if (statusText) statusText.textContent = stages[s].label;
+                        break;
+                    }
+                }
+            }, 65);
+        }
+
+        function enterTechdropStore() {
+            if (introDismissed) return;
+            introDismissed = true;
+            const introEl = document.getElementById('techdrop-intro');
+            document.body.classList.remove('intro-locked');
+
+            if (introAnimationFrame) {
+                cancelAnimationFrame(introAnimationFrame);
+            }
+
+            if (introEl) {
+                introEl.classList.add('intro-exit');
+                setTimeout(() => {
+                    introEl.style.display = 'none';
+                }, 900);
+            }
+        }
+
         /**
          * 1. VERIFIED SMARTPHONE CATALOG DATA STRUCTURE
          * Every product record binds its exact model name, verified real-world product photograph,
@@ -2250,8 +2627,12 @@
                 });
             }, { passive: true });
         }
-        // Close modals on Escape key
+        // Close modals on Escape key (or enter store if intro is still active)
         document.addEventListener('keydown', (e) => {
+            if (!introDismissed && (e.key === 'Enter' || e.key === 'Escape')) {
+                enterTechdropStore();
+                return;
+            }
             if (e.key === 'Escape') {
                 closeProductModal();
                 closeCheckoutModal();
@@ -2260,6 +2641,7 @@
         });
         // Initialize TECHDROP Application
         window.addEventListener('DOMContentLoaded', () => {
+            initIntroScreen();
             renderCuratedSections();
             applyCatalogFilters();
             initComparisonSelectors();
